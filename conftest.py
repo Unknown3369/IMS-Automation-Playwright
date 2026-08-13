@@ -4,18 +4,19 @@ from datetime import datetime
 import os
 from playwright.sync_api import sync_playwright
 
+
 def pytest_addoption(parser):
     parser.addoption(
         "--url",
         action="store",
-        default="http://grn.variantqa.himshang.com.np/",
+        default="https://automationqa.variantqa.himshang.com.np/",
         help="IMS application URL"
     )
 
     parser.addoption(
         "--username",
         action="store",
-        default="Testuser",
+        default="AutomationUser",
         help="IMS username"
     )
 
@@ -36,91 +37,86 @@ def config_data(request):
     }
 
 
+# Browser is now created and closed for EVERY TEST
 @pytest.fixture
-def page(browser, config_data):
-    page = browser.new_page()
-    page.goto(config_data["url"])
-    yield page
-    page.close()
-
-@pytest.fixture(scope="session")
 def browser():
-   with sync_playwright() as p:
-      browser = p.chromium.launch(
-         headless=False,
-         args=[
-            "--kiosk-printing",
-            "--disable-print-preview",
-         ]
-      )
+    with sync_playwright() as p:
 
-      yield browser
+        browser = p.chromium.launch(
+            headless=False,
+            args=[
+                "--kiosk-printing",
+                "--disable-print-preview",
+            ]
+        )
 
-      browser.close()
+        yield browser
+
+        # Close browser after test
+        browser.close()
+        print("\nBrowser closed after test.")
 
 
 @pytest.fixture
 def page(browser, config_data):
+
     context = browser.new_context(
         accept_downloads=True
     )
 
     page = context.new_page()
 
-    # Open the URL provided from terminal
+    # Open URL provided from terminal
     page.goto(config_data["url"])
 
     yield page
 
-    # # Always capture final state screenshot per test
-    # os.makedirs("reports/screenshots", exist_ok=True)
+    # Close context after test
+    if not page.is_closed():
+        page.close()
 
-    # screenshot_path = (
-    #     f"reports/screenshots/final_"
-    #     f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
-    # )
+    context.close()
 
-    # try:
-    #     if not page.is_closed():
-    #         page.screenshot(
-    #             path=screenshot_path,
-    #             full_page=True
-    #         )
-    # except Exception as e:
-    #     print(f"Final screenshot failed: {e}")
-
-    # context.close()
+    print("Page and context closed after test.")
 
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
 
-   outcome = yield
-   report = outcome.get_result()
+    outcome = yield
+    report = outcome.get_result()
 
-   if report.when == "call":
-      page = item.funcargs.get("page")
+    if report.when == "call":
 
-      if page and not page.is_closed():
-         os.makedirs("reports/screenshots", exist_ok=True)
+        page = item.funcargs.get("page")
 
-         screenshot_path = (
-               f"Reports/screenshots/"
-               f"{item.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+        if page and not page.is_closed():
+
+            os.makedirs("Reports/screenshots", exist_ok=True)
+
+            screenshot_path = (
+                f"Reports/screenshots/"
+                f"{item.name}_"
+                f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
             )
 
-         try:
-            page.screenshot(
-               path=screenshot_path,
-               full_page=True
-            )
-         except Exception as e:
-            print(f"Screenshot capture failed: {e}")
-            return
+            try:
+                page.screenshot(
+                    path=screenshot_path,
+                    full_page=True
+                )
 
-            # attach to pytest-html report
-         extras = getattr(report, "extras", [])
-         extras.append(
-            pytest_html.extras.png(screenshot_path)
-         )
-         report.extras = extras
+                print(f"Screenshot saved: {screenshot_path}")
+
+            except Exception as e:
+                print(f"Screenshot capture failed: {e}")
+                return
+
+            # Attach screenshot to pytest-html report
+            extras = getattr(report, "extras", [])
+
+            extras.append(
+                pytest_html.extras.png(screenshot_path)
+            )
+
+            report.extras = extras
