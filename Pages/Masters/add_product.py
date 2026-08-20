@@ -1,0 +1,209 @@
+from playwright.sync_api import Page, expect
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+import time
+import csv
+import os
+
+
+class Add_prod:
+   def __init__(self, page: Page):
+      self.page = page
+
+   def masters_click_test(self):
+      self.page.get_by_title("Inventory Info").nth(1).click()
+      self.page.get_by_role("link", name="Product Master").click()
+      self.page.get_by_role("button", name="Add Product").click()
+      self.page.locator("a").filter(has_text="Add Product").first.click()
+
+
+   def add_prod_test(self,input_itemname: str,input_hscode: str,input_description: str,stock_units:str,prod_group:str,input_purchase_price: int,vendor_name: str,input_sales_price: int, iteration):
+
+      item_group = self.page.get_by_role(
+         "textbox",
+         name="-- Press Enter For Item Group"
+      )
+
+      item_group.wait_for(state="visible", timeout=50000)
+      item_group.press("Enter")
+
+      ng_select_input = self.page.locator(".ng-input > input").first
+      ng_select_input.wait_for(state="visible", timeout=50000)
+      ng_select_input.click()
+      print("ng-select box clicked")
+
+      option = self.page.get_by_role("option", name=prod_group, exact=True)
+      option.wait_for(state="visible", timeout=50000)
+      option.click()
+      print(f"Selected option: {prod_group}")
+
+      ok_button = self.page.get_by_role("button", name="Ok")
+      ok_button.wait_for(state="visible", timeout=50000)
+      ok_button.click()
+      print("OK button clicked")
+
+      item_name = self.page.get_by_role(
+         "textbox",
+         name="Enter Item Name"
+      )
+
+      item_name.wait_for(state="visible", timeout=50000)
+      item_name.fill(input_itemname)
+      print("Item Name entered:", input_itemname)
+
+      hs_code = self.page.get_by_role(
+         "textbox",
+         name="Enter HS Code"
+      )
+
+      hs_code.wait_for(state="visible", timeout=50000)
+      hs_code.fill(input_hscode)
+      print("HS Code entered:", input_hscode)
+
+      vatable_status = "No"
+      try:
+         vatable_item = self.page.locator("input[type='checkbox']").first
+         vatable_item.wait_for(state="visible", timeout=5000)
+         if iteration % 2 == 0:
+            vatable_item.check()
+            vatable_status = "Yes"
+            print("Vatable Item")
+         else:
+            vatable_item.uncheck()
+            print("NonVat Item")
+      except Exception as e:
+         print(f"Checkbox interaction skipped: {e}")
+
+      unit_selected = False
+
+      try:
+         unit_dropdown = self.page.locator("select[id='unit']")
+         unit_dropdown.wait_for(state="visible", timeout=5000)
+         unit_dropdown.select_option(label=stock_units)
+         print(f"Unit '{stock_units}' selected via select_option")
+         unit_selected = True
+      except Exception as e:
+         print(f"Native select_option failed: {e}")
+
+      if not unit_selected:
+         try:
+            unit_dropdown = self.page.locator("select[id='unit']")
+            unit_dropdown.click()
+            self.page.wait_for_timeout(500)
+            option = self.page.locator(".ng-option").filter(
+               has_text=stock_units
+            ).first
+            option.wait_for(state="visible", timeout=10000)
+            option.click()
+            print(f"Unit '{stock_units}' selected via ng-option click")
+            unit_selected = True
+         except Exception as e2:
+            print(f"ng-option click failed: {e2}")
+
+      if not unit_selected:
+         try:
+            unit_dropdown = self.page.get_by_placeholder("Unit")
+            unit_dropdown.click()
+            self.page.wait_for_timeout(500)
+            option = self.page.locator(".ng-option").filter(
+               has_text=stock_units
+            ).first
+            option.wait_for(state="visible", timeout=10000)
+            option.click()
+            print(f"Unit '{stock_units}' selected via placeholder click")
+            unit_selected = True
+         except Exception as e3:
+            print(f"placeholder click failed: {e3}")
+
+      if not unit_selected:
+         try:
+            self.page.locator("//label[contains(text(), 'Unit')]/following-sibling::*").first.click()
+            self.page.wait_for_timeout(500)
+            self.page.locator(f"//span[contains(text(), '{stock_units}')]").first.click()
+            print(f"Unit '{stock_units}' selected via xpath")
+            unit_selected = True
+         except Exception as e4:
+            print(f"xpath click failed: {e4}")
+
+      description = self.page.get_by_role(
+         "textbox",
+         name="Enter Product Description"
+      )
+
+      description.wait_for(state="visible", timeout=50000)
+      description.fill(input_description)
+      print("Description entered:", input_description)
+
+      short_name = self.page.get_by_role(
+         "textbox",
+         name="Enter Short Name"
+      )
+
+      short_name.wait_for(state="visible", timeout=50000)
+      short_name.fill("TestProd")
+      print("Short Name entered: TestProd")
+
+      category_dropdown = self.page.locator("select[name=\"Category\"]")
+      category_dropdown.wait_for(state="visible", timeout=50000)
+      category_dropdown.select_option(label="N/A")
+      print("Category 'N/A' selected")
+
+      purchase_price = self.page.get_by_placeholder("Enter Purchase Price").nth(1)
+      purchase_price.wait_for(state="visible", timeout=50000)
+      purchase_price.fill(str(input_purchase_price))
+      print("Purchase Price entered:", input_purchase_price)
+
+
+      supplier_input = self.page.get_by_role(
+         "textbox",
+         name="Press Enter to select"
+      ).nth(0)
+
+      supplier_input.wait_for(state="visible", timeout=30000)
+      supplier_input.press("Enter")
+
+      vendor = self.page.locator(
+         f"//td[contains(normalize-space(),'{vendor_name}')]"
+      )
+
+      vendor.wait_for(state="visible", timeout=30000)
+      vendor.dblclick()
+
+      print(f"Supplier '{vendor_name}' selected successfully!")
+
+      sales_price = self.page.locator("input[type='number'][placeholder='0']").first
+      sales_price.wait_for(state="visible", timeout=50000)
+      sales_price.fill(str(input_sales_price))
+      print("Sales Price entered successfully!")
+
+      item_code_element = self.page.locator("//input[@placeholder='Enter Item Code' and @readonly]")
+      expect(item_code_element).not_to_have_value("")
+      item_code = item_code_element.input_value().strip()
+      print("Generated Item Code:", item_code)
+      return item_code, vatable_status
+
+   def save_button(self):
+      self.page.locator("#save").click()
+
+      try:
+         dialog = self.page.wait_for_event("dialog", timeout=5000)
+         dialog.accept()
+      except:
+         pass
+
+      try:
+         ok_btn = self.page.get_by_role("button", name="OK")
+         ok_btn.wait_for(state="visible", timeout=30000)
+         ok_btn.click()
+      except PlaywrightTimeoutError:
+         print("No confirmation dialog appeared after saving.")
+
+      time.sleep(1)
+
+   def save_product_to_csv(self,item_code,item_name,hs_code,description,purchase_price,sales_price,filename="product_details.csv"):
+      file_exists = os.path.isfile(filename)
+      with open(filename, mode="a", newline="", encoding="utf-8") as file:
+         writer = csv.writer(file)
+         if not file_exists:
+            writer.writerow(["Item Code","Item Name","HS Code","Description","Purchase Price","Sales Price"])
+         writer.writerow([item_code,item_name,hs_code,description,purchase_price,sales_price])
+      print(f"Product details saved to {filename}")

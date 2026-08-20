@@ -8,7 +8,7 @@ from Pages.Masters.add_customer import AddCustomer
 
 
 def random_name():
-   return ("IRD_Customer_" +uuid.uuid4().hex[:2])
+   return ("Customer_" +uuid.uuid4().hex[:2])
 
 
 def random_phone():

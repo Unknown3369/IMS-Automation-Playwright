@@ -37,7 +37,6 @@ def config_data(request):
     }
 
 
-# Browser is now created and closed for EVERY TEST
 @pytest.fixture
 def browser():
     with sync_playwright() as p:
