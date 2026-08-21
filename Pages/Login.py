@@ -1,3 +1,4 @@
+import time
 class Login:
 
     def __init__(self, page):
@@ -26,10 +27,8 @@ class Login:
         login_btn = self.page.locator(self.login_button)
         login_btn.wait_for(state="visible", timeout=35000)
         login_btn.click()
-
+        time.sleep(8)
         print("Login button clicked!")
-
-        self.page.wait_for_timeout(6000)
 
         try:
             popup_logout_btn = self.page.locator(self.logout_button)
