@@ -34,7 +34,7 @@ def test_sales_invoice(page,config_data):
 
    for product in products:
          item_code = product["Item Code"]
-         random_quantity = 10
+         random_quantity = str(random.randint(50, 99))
          sales_invoice.sales_invoice_test(item_code,random_quantity)
    
    sales_invoice.save_btn()
