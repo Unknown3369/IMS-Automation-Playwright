@@ -23,7 +23,7 @@ def clear_csv(filename="customers.csv"):
    print("CSV reset complete.")
 
 
-def write_customer_to_csv(data,file_name="customers.csv"):
+def write_customer_to_csv(data,file_name="CSV/customers.csv"):
    file_exists = os.path.isfile(file_name)
 
    with open(file_name,mode="a",newline="",encoding="utf-8") as file:
@@ -43,7 +43,7 @@ def test_add_customer(page,config_data):
       print("Already Logged In")
 
    add_customer = AddCustomer(page)
-   clear_csv("customers.csv")
+   clear_csv("CSV/customers.csv")
 
    page.wait_for_load_state("networkidle")
    add_customer.open_add_customer()

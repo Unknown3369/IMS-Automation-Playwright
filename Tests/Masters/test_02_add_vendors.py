@@ -11,7 +11,7 @@ def random_name():
    return ("VENDOR_" +uuid.uuid4().hex[:2])
 
 
-def clear_csv(filename="vendors.csv"):
+def clear_csv(filename="CSV/vendors.csv"):
    with open(filename, mode="w", newline="", encoding="utf-8") as file:
       writer = csv.writer(file)
       writer.writerow(["MainGroup","ACNAME","Address","VATNO","PARTYTYPE"])
@@ -30,7 +30,7 @@ def random_mobile():
    return ("98" +str(random.randint(10000000,99999999)))
 
 
-def write_vendor_to_csv(data,file_name="vendors.csv"):
+def write_vendor_to_csv(data,file_name="CSV/vendors.csv"):
 
    file_exists = os.path.isfile(file_name)
 
@@ -52,7 +52,7 @@ def test_create_vendor(page,config_data):
    except:
       print("Already logged in")
 
-   clear_csv("vendors.csv")
+   clear_csv("CSV/vendors.csv")
 
    vendor_page = AddVendor(page)
    vendor_page.open_add_vendor()

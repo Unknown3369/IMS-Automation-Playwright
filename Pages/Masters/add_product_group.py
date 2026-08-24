@@ -26,7 +26,7 @@ class AddProductGroupMasterPage:
       ):
     os.makedirs("Reports/data", exist_ok=True)
 
-    csv_file = "product_groups.csv"
+    csv_file = "CSV/product_groups.csv"
 
     file_exists = os.path.isfile(csv_file)
 

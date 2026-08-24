@@ -131,7 +131,5 @@ __marimo__/
 
 reports/screenshots/
 invoices/
-customer.csv
-product_details.csv
-product_groups.csv
-vendors.csv
+CSV/
+Screenshots/

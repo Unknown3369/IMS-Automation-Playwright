@@ -152,7 +152,7 @@ class Add_prod:
       purchase_price.fill(str(input_purchase_price))
       print("Purchase Price entered:", input_purchase_price)
 
-
+########################################################################
       supplier_input = self.page.get_by_role(
          "textbox",
          name="Press Enter to select"
@@ -165,10 +165,28 @@ class Add_prod:
          f"//td[contains(normalize-space(),'{vendor_name}')]"
       )
 
-      vendor.wait_for(state="visible", timeout=30000)
-      vendor.dblclick()
+      arrow = self.page.locator(
+         "svg:has(path[d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l-6 6z'])"
+      )
 
-      print(f"Supplier '{vendor_name}' selected successfully!")
+      for page_number in range(1, 20):
+
+         print(f"Searching for supplier '{vendor_name}' on page {page_number}")
+
+         if vendor.count() > 0 and vendor.first.is_visible():
+            vendor.first.dblclick()
+            print(f"Supplier '{vendor_name}' selected successfully!")
+            break
+
+         print(f"Supplier not found on page {page_number}. Moving to next page...")
+
+         arrow.click()
+         self.page.wait_for_timeout(500)
+
+      else:
+         raise Exception(
+            f"Supplier '{vendor_name}' was not found after checking 20 pages."
+         )
 
       sales_price = self.page.locator("input[type='number'][placeholder='0']").first
       sales_price.wait_for(state="visible", timeout=50000)
@@ -199,7 +217,7 @@ class Add_prod:
 
       time.sleep(1)
 
-   def save_product_to_csv(self,item_code,item_name,hs_code,description,purchase_price,sales_price,filename="product_details.csv"):
+   def save_product_to_csv(self,item_code,item_name,hs_code,description,purchase_price,sales_price,filename="CSV/product_details.csv"):
       file_exists = os.path.isfile(filename)
       with open(filename, mode="a", newline="", encoding="utf-8") as file:
          writer = csv.writer(file)

@@ -5,7 +5,7 @@ import uuid
 from Pages.Login import Login
 from Pages.Masters.add_product_group import (AddProductGroupMasterPage)
 
-def clear_csv(filename="product_groups.csv"):
+def clear_csv(filename="CSV/product_groups.csv"):
    with open(filename, mode="w", newline="", encoding="utf-8") as file:
       writer = csv.writer(file)
       writer.writerow(["Timestamp","Group Name","Group Code","Recommended Margin","Shelf Life"])
@@ -25,7 +25,7 @@ def test_add_product_group_master(page, config_data):
    except: 
       print("Already Logged In")
 
-   clear_csv("product_groups.csv")
+   clear_csv("CSV/product_groups.csv")
 
    try:
       add_group = AddProductGroupMasterPage(page)

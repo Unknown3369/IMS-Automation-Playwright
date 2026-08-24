@@ -10,13 +10,13 @@ MAX_PRODUCTS = 10
 def random_name():
    return "PRODUCT" + uuid.uuid4().hex[:4]
 
-def clear_csv(filename="added_products.csv"):
+def clear_csv(filename="CSV/added_products.csv"):
    with open(filename, mode="w", newline="", encoding="utf-8") as file:
       writer = csv.writer(file)
       writer.writerow(["Item Code", "Item Name", "HS Code", "Description", "Purchase Price", "Sales Price", "Vatable"])
    print("CSV reset complete.")
 
-def product_group(filename="product_groups.csv"):
+def product_group(filename="CSV/product_groups.csv"):
     with open(filename, mode="r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         rows = list(reader)
@@ -26,7 +26,7 @@ def product_group(filename="product_groups.csv"):
 
         return rows[-1]["Group Name"]
 
-def get_vendor_from_csv(filename="vendors.csv"):
+def get_vendor_from_csv(filename="CSV/vendors.csv"):
     with open(filename, mode="r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         rows = list(reader)
@@ -36,7 +36,7 @@ def get_vendor_from_csv(filename="vendors.csv"):
 
     return rows[-1]["ACNAME"]
 
-def save_product_to_csv(item_code,item_name,hs_code,description,purchase_price,sales_price,vatable,filename="product_details.csv"):
+def save_product_to_csv(item_code,item_name,hs_code,description,purchase_price,sales_price,vatable,filename="CSV/product_details.csv"):
 
    header = ["Item Code", "Item Name", "HS Code", "Description", "Purchase Price", "Sales Price", "Vatable"]
 
@@ -73,7 +73,7 @@ def test_add_prod(page, config_data):
    except: 
       print("Already logged in")
    add_prod_page = Add_prod(page)
-   clear_csv("product_details.csv")
+   clear_csv("CSV/product_details.csv")
    page.wait_for_load_state("networkidle")
    page.wait_for_timeout(3000)
    

@@ -91,10 +91,10 @@ def pytest_runtest_makereport(item, call):
 
         if page and not page.is_closed():
 
-            os.makedirs("Reports/screenshots", exist_ok=True)
+            os.makedirs("Screenshots", exist_ok=True)
 
             screenshot_path = (
-                f"Reports/screenshots/"
+                f"Screenshots/"
                 f"{item.name}_"
                 f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
             )
