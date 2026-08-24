@@ -50,7 +50,7 @@ class SalesInvoice:
       print("Customer popup opened!")
 
       # Select Customer
-      with open("customers.csv", newline="", encoding="utf-8") as file:
+      with open("CSV/customers.csv", newline="", encoding="utf-8") as file:
          reader = csv.DictReader(file)
          customer = next(reader)["ACNAME"]
 

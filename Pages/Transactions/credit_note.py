@@ -25,7 +25,7 @@ class CreditNotePage:
 
     @staticmethod
     def get_customer_name():
-        with open("customers.csv", newline="", encoding="utf-8") as file:
+        with open("CSV/customers.csv", newline="", encoding="utf-8") as file:
             reader = csv.DictReader(file)
             row = next(reader)
             return row["ACNAME"]

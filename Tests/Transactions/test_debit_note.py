@@ -28,7 +28,7 @@ def test_debit_note(page,config_data):
       print('Already Logged In')
 
    debit_note = DebitNote(page)
-   products = read_products_from_csv("product_details.csv")
+   products = read_products_from_csv("CSV/product_details.csv")
    random_ref_no = "REF_NO" + str(random.randint(10000, 99999))
    debit_note.enter_debit_note()
    debit_note.debit_note_entry(str(random_ref_no))

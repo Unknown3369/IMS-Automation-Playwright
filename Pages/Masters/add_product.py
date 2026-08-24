@@ -152,42 +152,6 @@ class Add_prod:
       purchase_price.fill(str(input_purchase_price))
       print("Purchase Price entered:", input_purchase_price)
 
-########################################################################
-      supplier_input = self.page.get_by_role(
-         "textbox",
-         name="Press Enter to select"
-      ).nth(0)
-
-      supplier_input.wait_for(state="visible", timeout=30000)
-      supplier_input.press("Enter")
-
-      vendor = self.page.locator(
-         f"//td[contains(normalize-space(),'{vendor_name}')]"
-      )
-
-      arrow = self.page.locator(
-         "svg:has(path[d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l-6 6z'])"
-      )
-
-      for page_number in range(1, 20):
-
-         print(f"Searching for supplier '{vendor_name}' on page {page_number}")
-
-         if vendor.count() > 0 and vendor.first.is_visible():
-            vendor.first.dblclick()
-            print(f"Supplier '{vendor_name}' selected successfully!")
-            break
-
-         print(f"Supplier not found on page {page_number}. Moving to next page...")
-
-         arrow.click()
-         self.page.wait_for_timeout(500)
-
-      else:
-         raise Exception(
-            f"Supplier '{vendor_name}' was not found after checking 20 pages."
-         )
-
       sales_price = self.page.locator("input[type='number'][placeholder='0']").first
       sales_price.wait_for(state="visible", timeout=50000)
       sales_price.fill(str(input_sales_price))

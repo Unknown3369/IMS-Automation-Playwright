@@ -25,7 +25,7 @@ def test_purchase_invoice(page,config_data):
       print("Already Logged In")
    
    purchase_invoice = PurchaseInvoice(page)
-   products = read_products_from_csv("product_details.csv")
+   products = read_products_from_csv("CSV/product_details.csv")
    random_invoice_no = "IRD_REFNO." + str(random.randint(10000, 99999))
    purchase_invoice.purchase_invoice(random_invoice_no)
    time.sleep(1)

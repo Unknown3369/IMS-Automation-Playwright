@@ -28,7 +28,7 @@ def test_abbv_invoice(page,config_data):
    sales_invoice.enter_sales_invoice(ref_no)
 
    products = read_products_from_csv(
-      "product_details.csv"
+      "CSV/product_details.csv"
    )
    try:
       for product in products:

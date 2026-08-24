@@ -22,7 +22,7 @@ class DebitNote:
       self.save_button = "//button[normalize-space(text())='SAVE [End]']"
 
    def get_vendor_name():
-      with open("vendors.csv", newline="", encoding="utf-8") as file:
+      with open("CSV/vendors.csv", newline="", encoding="utf-8") as file:
          reader = csv.DictReader(file)
          row = next(reader)  # First row
          return row["ACNAME"]
