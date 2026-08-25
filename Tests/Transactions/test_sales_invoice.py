@@ -5,6 +5,8 @@ from playwright.sync_api import sync_playwright
 from Pages.Login import Login
 from Pages.Transactions.Sales_invoice import SalesInvoice
 
+print("\n==========Sales Invoice Test==========\n")
+
 def read_products_from_csv(file_path):
 
    products = []

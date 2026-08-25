@@ -1,6 +1,7 @@
 from Pages.Login import Login
 from Pages.Transactions.credit_note import CreditNotePage
 
+print("\n==========Credit Note Test==========\n")
 
 def test_generate_credit_note(page,config_data):
    try:

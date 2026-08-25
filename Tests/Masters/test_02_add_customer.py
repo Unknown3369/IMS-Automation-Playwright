@@ -6,6 +6,7 @@ import csv
 from Pages.Login import Login
 from Pages.Masters.add_customer import AddCustomer
 
+print("\n==========Add Customer Test==========\n")
 
 def random_name():
    return ("Customer_" +uuid.uuid4().hex[:2])

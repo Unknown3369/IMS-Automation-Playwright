@@ -5,6 +5,8 @@ import uuid
 from Pages.Login import Login
 from Pages.Masters.add_category import AddProductCategoryPage
 
+print("\n==========Add Category Test==========\n")
+
 def random_category_name():
 
    prefixes = ["Liquor","Snacks"]

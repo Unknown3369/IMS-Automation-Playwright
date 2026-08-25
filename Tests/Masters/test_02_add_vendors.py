@@ -6,6 +6,7 @@ import uuid
 from Pages.Login import Login
 from Pages.Masters.add_vendor import AddVendor
 
+print("\n==========Add Vendor Test==========\n")
 
 def random_name():
    return ("VENDOR_" +uuid.uuid4().hex[:2])

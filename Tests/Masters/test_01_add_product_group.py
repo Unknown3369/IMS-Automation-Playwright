@@ -5,6 +5,8 @@ import uuid
 from Pages.Login import Login
 from Pages.Masters.add_product_group import (AddProductGroupMasterPage)
 
+print("\n==========Add Product Group Test==========\n")
+
 def clear_csv(filename="CSV/product_groups.csv"):
    with open(filename, mode="w", newline="", encoding="utf-8") as file:
       writer = csv.writer(file)

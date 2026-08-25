@@ -9,6 +9,7 @@ from playwright.sync_api import sync_playwright
 from Pages.Login import Login
 from Pages.Transactions.debit_note import DebitNote
 
+print("\n==========Debit Note Test==========\n")
 
 def read_products_from_csv(file_path):
    products = []

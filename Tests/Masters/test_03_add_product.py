@@ -7,6 +7,8 @@ import uuid
 import time
 MAX_PRODUCTS = 10
 
+print("\n==========Add Product Test==========\n")
+
 def random_name():
    return "PRODUCT" + uuid.uuid4().hex[:4]
 

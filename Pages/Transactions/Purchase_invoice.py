@@ -37,6 +37,10 @@ class PurchaseInvoice:
       self.page.locator(self.account).click()
       self.page.locator(self.account).press("Enter")
       time.sleep(1)
+      # accounts_header = self.page.locator("//div[contains(@class,'modal-header')][.//h4[normalize-space()='Accounts']]")
+      # accounts_header.wait_for(state="visible", timeout=10000)
+      # accounts_header.click()
+
       self.page.locator(self.account).fill(vendor_name)
 
       self.page.locator(f"//div[normalize-space()='{vendor_name}']").dblclick()
