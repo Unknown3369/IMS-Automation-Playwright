@@ -5,7 +5,7 @@ from playwright.sync_api import sync_playwright
 from Pages.Login import Login
 from Pages.Transactions.Sales_invoice import SalesInvoice
 
-print("\n==========Sales Invoice Test==========\n")
+
 
 def read_products_from_csv(file_path):
 
@@ -18,6 +18,7 @@ def read_products_from_csv(file_path):
    return products
 
 def test_sales_invoice(page,config_data):
+   print("\n==========Sales Invoice Test==========\n")
 
    try:
       login_page = Login(page)

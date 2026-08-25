@@ -4,7 +4,7 @@ from playwright.sync_api import sync_playwright
 from Pages.Login import Login
 from Pages.Transactions.Opening_stock import OpeningStockPage
 
-print("\n==========Opening Stock Test==========\n")
+
 
 def read_products_from_csv(file_path):
    products = []
@@ -21,6 +21,7 @@ def read_products_from_csv(file_path):
    return products
 
 def test_opening_stock_entry(page,config_data):
+   print("\n==========Opening Stock Test==========\n")
 
    login_page = Login(page)
    login_page.perform_login(config_data)

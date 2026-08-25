@@ -1,13 +1,14 @@
 from Pages.Login import Login
 
-print("\n==========Login Test==========\n")
+
 
 def test_login_to_ims(page,config_data):
+   print("\n==========Login Test==========\n")
 
-      login_page = Login(page)
-      login_page.perform_login(config_data)
+   login_page = Login(page)
+   login_page.perform_login(config_data)
 
-      print("Login process completed.")
+   print("Login process completed.")
 
 def verify_login(self):
    current_url = self.page.url

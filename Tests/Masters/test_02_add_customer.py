@@ -6,8 +6,6 @@ import csv
 from Pages.Login import Login
 from Pages.Masters.add_customer import AddCustomer
 
-print("\n==========Add Customer Test==========\n")
-
 def random_name():
    return ("Customer_" +uuid.uuid4().hex[:2])
 
@@ -36,6 +34,7 @@ def write_customer_to_csv(data,file_name="CSV/customers.csv"):
 
 
 def test_add_customer(page,config_data):
+   print("\n==========Add Customer Test==========\n")
 
    try:
       login_page = Login(page)

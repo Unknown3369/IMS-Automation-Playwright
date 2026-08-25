@@ -5,7 +5,7 @@ import uuid
 from Pages.Login import Login
 from Pages.Masters.add_product_group import (AddProductGroupMasterPage)
 
-print("\n==========Add Product Group Test==========\n")
+
 
 def clear_csv(filename="CSV/product_groups.csv"):
    with open(filename, mode="w", newline="", encoding="utf-8") as file:
@@ -21,6 +21,7 @@ def random_group_code():
 
 
 def test_add_product_group_master(page, config_data):
+   print("\n==========Add Product Group Test==========\n")
    try:
       login_page = Login(page)
       login_page.perform_login(config_data)

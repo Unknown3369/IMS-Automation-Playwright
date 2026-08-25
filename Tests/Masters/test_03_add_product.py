@@ -7,7 +7,7 @@ import uuid
 import time
 MAX_PRODUCTS = 10
 
-print("\n==========Add Product Test==========\n")
+
 
 def random_name():
    return "PRODUCT" + uuid.uuid4().hex[:4]
@@ -68,7 +68,7 @@ def save_product_to_csv(item_code,item_name,hs_code,description,purchase_price,s
 
 
 def test_add_prod(page, config_data):
-
+   print("\n==========Add Product Test==========\n")
    try:
       login_page = Login(page)
       login_page.perform_login(config_data)

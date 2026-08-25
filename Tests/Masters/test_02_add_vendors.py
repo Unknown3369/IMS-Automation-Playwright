@@ -6,7 +6,7 @@ import uuid
 from Pages.Login import Login
 from Pages.Masters.add_vendor import AddVendor
 
-print("\n==========Add Vendor Test==========\n")
+
 
 def random_name():
    return ("VENDOR_" +uuid.uuid4().hex[:2])
@@ -45,6 +45,7 @@ def write_vendor_to_csv(data,file_name="CSV/vendors.csv"):
 
 
 def test_create_vendor(page,config_data):
+   print("\n==========Add Vendor Test==========\n")
 
    try:
       login_page = Login(page)

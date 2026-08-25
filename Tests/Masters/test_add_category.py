@@ -5,7 +5,7 @@ import uuid
 from Pages.Login import Login
 from Pages.Masters.add_category import AddProductCategoryPage
 
-print("\n==========Add Category Test==========\n")
+
 
 def random_category_name():
 
@@ -13,6 +13,7 @@ def random_category_name():
    return f"{random.choice(prefixes)}_{uuid.uuid4().hex[:6]}"
 
 def test_add_product_category(page,config_data):
+   print("\n==========Add Category Test==========\n")
 
    login_page = Login(page)
 
