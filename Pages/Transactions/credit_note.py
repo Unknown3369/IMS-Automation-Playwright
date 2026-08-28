@@ -49,7 +49,7 @@ class CreditNotePage:
 
 
     def credit_note_entry(self):
-        customer_name = CreditNotePage.get_customer_name()
+        # customer_name = CreditNotePage.get_customer_name()
         
         ref_bill = self.page.locator(self.ref_bill)
         ref_bill.scroll_into_view_if_needed()

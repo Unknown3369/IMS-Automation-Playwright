@@ -35,6 +35,7 @@ class OpeningStockPage:
             state="visible",
             timeout=30000
       )
+      time.sleep(1)
       quantity.fill(str(enter_quantity))
       quantity.press("Enter")
       quantity.press("Enter")

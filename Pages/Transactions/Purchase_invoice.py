@@ -14,7 +14,7 @@ class PurchaseInvoice:
       self.purchase_invoice_link = "//span[normalize-space()='Purchase Invoice']"
       self.invoice_no = "#invoiceNO"
       self.account = "#accountfield"
-      self.account_name = "//div[normalize-space()='11 QA Vendor']"
+      self.search_box = "//input[@placeholder='Enter keyword to search']"
       self.item_name = "//input[@id='barcodeField' and @placeholder='Enter Barcode']"
       self.quantity = "#quantityBarcode"
       self.save_button = "//button[contains(text(),'SAVE')]"
@@ -29,19 +29,17 @@ class PurchaseInvoice:
       vendor_name = PurchaseInvoice.get_vendor_name()
       self.page.get_by_title("Transactions").first.click()
       self.page.get_by_title("Purchase Transaction").nth(1).click()
-      self.page.get_by_role("link", name="Purchase Invoice").click()
+      self.page.get_by_role("link", name="Purchase Invoice",exact=True).click()
 
       self.page.locator(self.invoice_no).fill(str(invoice_value))
       print(f"Invoice No '{invoice_value}' entered successfully!")
 
       self.page.locator(self.account).click()
       self.page.locator(self.account).press("Enter")
-      time.sleep(1)
-      # accounts_header = self.page.locator("//div[contains(@class,'modal-header')][.//h4[normalize-space()='Accounts']]")
-      # accounts_header.wait_for(state="visible", timeout=10000)
-      # accounts_header.click()
+      time.sleep(2)
 
-      self.page.locator(self.account).fill(vendor_name)
+      self.page.keyboard.insert_text(vendor_name)
+      time.sleep(1)
 
       self.page.locator(f"//div[normalize-space()='{vendor_name}']").dblclick()
       print(f"Vendor '{vendor_name}' selected successfully!")
