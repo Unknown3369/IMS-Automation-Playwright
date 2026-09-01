@@ -35,11 +35,11 @@ class OpeningStockPage:
             state="visible",
             timeout=30000
       )
-      time.sleep(1)
+      time.sleep(2)
       quantity.fill(str(enter_quantity))
       quantity.press("Enter")
       quantity.press("Enter")
-      time.sleep(1)
+      time.sleep(2)
 
       print(f"Quantity entered successfully! -> {enter_quantity}")
       self.page.wait_for_timeout(1000)
